@@ -24,12 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['username']) && isset($_G
         $organizer_check_sql = "SELECT * FROM organizer WHERE user_id = $user_id";
         $organizer_result = $conn->query($organizer_check_sql);
         $is_organizer = $organizer_result->num_rows > 0;
+        $organizer_id = $organizer_result->fetch_assoc();
 
         // Construct response based on user role
         if ($is_admin) {
             $response = array('message' => 'Logged in as admin', 'user' => $user);
         } elseif ($is_organizer) {
-            $response = array('message' => 'organizer', 'user' => $user);
+            $response = array('message' => 'organizer', 'user' => $organizer_id['organizer_id']);
         } else {
             $response = array('message' => 'Logged in as user', 'user' => $user);
         }
