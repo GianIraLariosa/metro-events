@@ -1,19 +1,44 @@
 <?php
 include 'db_con.php';
 
-// Check if event_name, organizer_id, and event_description are provided in the URL
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['event_name']) && isset($_GET['organizer_id']) && isset($_GET['event_description'])) {
-    $event_name = $_GET['event_name'];
-    $organizer_id = $_GET['organizer_id'];
-    $event_description = $_GET['event_description'];
+// Check if POST data is provided
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check for event_name parameter
+    if (!empty($_POST['event_name'])) {
+        $event_name = $_POST['event_name'];
+    } else {
+        die("Error: event_name not provided");
+    }
 
+    // Check for organizer_id parameter
+    if (!empty($_POST['organizer'])) {
+        $organizer_id = $_POST['organizer'];
+    } else {
+        die("Error: organizer_id not provided");
+    }
+
+    // Check for event_description parameter
+    if (!empty($_POST['event_description'])) {
+        $event_description = $_POST['event_description'];
+    } else {
+        die("Error: event_description not provided");
+    }
+
+    // Check for event_datetime parameter
+    if (!empty($_POST['event_datetime'])) {
+        $event_datetime = $_POST['event_datetime'];
+    } else {
+        die("Error: event_datetime not provided");
+    }
+
+    // Proceed with inserting into events table
     // Validate organizer_id (ensure it exists in the users table)
     $sql_check_organizer = "SELECT * FROM organizer WHERE organizer_id = '$organizer_id'";
     $result_check_organizer = $conn->query($sql_check_organizer);
 
     if ($result_check_organizer->num_rows > 0) {
         // Organizer exists, proceed with inserting into events table
-        $sql_insert_event = "INSERT INTO event (event_name, organizer, event_description) VALUES ('$event_name', '$organizer_id', '$event_description')";
+        $sql_insert_event = "INSERT INTO event (event_name, organizer, event_description, event_datetime) VALUES ('$event_name', '$organizer_id', '$event_description', '$event_datetime')";
         if ($conn->query($sql_insert_event) === TRUE) {
             echo "New event created successfully";
         } else {
@@ -25,6 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['event_name']) && isset($
 
     $conn->close();
 } else {
-    echo "event_name, organizer_id, or event_description not provided";
+    echo "No POST data received";
 }
 ?>
