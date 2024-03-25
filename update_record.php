@@ -8,6 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['table']) && isset($_GET[
     $pk_value = $_GET['pk_value'];
     $new_values = $_GET['new_values'];
 
+    echo "Received Parameters:<br>";
+    echo "Table: " . $_GET['table'] . "<br>";
+    echo "Primary Key Name: " . $_GET['pk_name'] . "<br>";
+    echo "Primary Key Value: " . $_GET['pk_value'] . "<br>";
+    echo "New Values: " . $_GET['new_values'] . "<br>";
+
     // Sanitize primary key value (example using mysqli_real_escape_string, consider using prepared statements)
     $pk_value = mysqli_real_escape_string($conn, $pk_value);
 
