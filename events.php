@@ -14,7 +14,7 @@ if ($result->num_rows > 0) {
             "id" => $row["event_id"],
             "name" => $row["event_name"],
             "description" => $row["event_description"],
-            "date" => $row["event_datetime"]
+            "date" => $row["event_datetime"],
         );
         $response[] = $event;
     }
