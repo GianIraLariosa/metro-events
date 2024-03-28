@@ -2,14 +2,26 @@
 include 'db_con.php';
 
 // Check if the request method is POST
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the user ID from the POST data and sanitize it
-    $userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+    $userid = isset($_POST['userid']) ? intval($_POST['userid']) : 0;
 
-    if ($userId <= 0) {
+    if ($userid <= 0) {
         // Invalid user ID provided
         http_response_code(400); // Bad Request
         echo json_encode(array('success' => false, 'message' => 'Invalid user ID.'));
+        exit;
+    }
+
+    // Check if the user exists
+    $stmt = $pdo->prepare("SELECT * FROM user WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        // User does not exist
+        http_response_code(404); // Not Found
+        echo json_encode(array('success' => false, 'message' => 'User not found.'));
         exit;
     }
 
