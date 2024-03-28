@@ -5,15 +5,8 @@ include 'db_con.php';
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['table'])) {
     $table = $_GET['table'];
     
-    // Check if the organizer ID is provided in the URL
-    if (isset($_GET['organizer_id'])) {
-        $organizer_id = $_GET['organizer_id'];
-        // Retrieve data from the specified table for the specific organizer
-        $sql_data = "SELECT * FROM $table WHERE organizer = '$organizer_id'";
-    } else {
-        // Retrieve all data from the specified table
-        $sql_data = "SELECT * FROM $table";
-    }
+    
+    $sql_data = "SELECT * FROM $table WHERE approved = 0";
 
     $result_data = $conn->query($sql_data);
 

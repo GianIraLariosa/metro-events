@@ -2,7 +2,7 @@
 $host = 'localhost'; // MySQL host (usually localhost)
 $username = 'root'; // MySQL username (default is root)
 $password = ''; // MySQL password (leave empty if none)
-$database = 'metro_events-1'; // Name of your database
+$database = 'metro_events'; // Name of your database
 
 // Create connection
 $conn = new mysqli($host, $username, $password, $database);
