@@ -1,53 +1,38 @@
 <?php
-include 'db_con.php';
+// Include your database connection file
+require_once 'db_con.php';
 
-// Check if the request method is POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the user ID from the POST data and sanitize it
-    $userid = isset($_POST['userid']) ? intval($_POST['userid']) : 0;
+// Assuming db_conn.php defines $conn as your database connection
 
-    if ($userid <= 0) {
-        // Invalid user ID provided
-        http_response_code(400); // Bad Request
-        echo json_encode(array('success' => false, 'message' => 'Invalid user ID.'));
-        exit;
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if user_id is provided in the POST request
+    if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
+        // Get user ID from the POST request
+        $user_id = $_POST['user_id'];
 
-    // Check if the user exists
-    $stmt = $pdo->prepare("SELECT * FROM user WHERE user_id = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Get current date and time
+        $dateTime = date('Y-m-d H:i:s');
 
-    if (!$user) {
-        // User does not exist
-        http_response_code(404); // Not Found
-        echo json_encode(array('success' => false, 'message' => 'User not found.'));
-        exit;
-    }
+        // Prepare and execute SQL statement
+        $sql = "INSERT INTO requests (dateTime, user_id) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
 
-    // Perform any necessary validation or authentication here
-
-    // Simulate processing the request
-    // In a real application, you would likely insert this request into a database
-    $success = true; // Assume success
-
-    // Prepare the response
-    $response = array();
-
-    if ($success) {
-        $response['success'] = true;
-        $response['message'] = "Request to become an organizer has been submitted successfully.";
+        if ($stmt) {
+            $stmt->bind_param("ss", $dateTime, $user_id);
+            if ($stmt->execute()) {
+                echo "Successfull";
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+            $stmt->close();
+        } else {
+            echo "Error: Unable to prepare SQL statement";
+        }
     } else {
-        $response['success'] = false;
-        $response['message'] = "Failed to submit request to become an organizer.";
+        echo "Error: user_id is missing or empty in the POST request";
     }
-
-    // Send the JSON response
-    header('Content-Type: application/json');
-    echo json_encode($response);
 } else {
-    // If the request method is not POST, return an error
-    http_response_code(405); // Method Not Allowed
-    echo "Method Not Allowed";
+    echo "Invalid request method";
 }
+$conn->close();
 ?>
