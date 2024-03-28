@@ -28,11 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['username']) && isset($_G
 
         // Construct response based on user role
         if ($is_admin) {
-            $response = array('message' => 'Logged in as admin', 'user' => $user);
+            $response = array('message' => 'admin', 'user' => $user);
         } elseif ($is_organizer) {
             $response = array('message' => 'organizer', 'user' => $organizer_id['organizer_id']);
         } else {
-            $response = array('message' => 'Logged in as user', 'user' => $user);
+            $response = array('message' => 'user', 'user' => $user);
         }
 
         echo json_encode($response);
