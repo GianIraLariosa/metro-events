@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['username']) && isset($_G
         if ($is_admin) {
             $response = array('message' => 'admin', 'user' => $user);
         } elseif ($is_organizer) {
-            $response = array('message' => 'organizer', 'user' => $organizer_id['organizer_id']);
+            $response = array('message' => 'organizer', 'user' => $organizer_id);
         } else {
             $response = array('message' => 'user', 'user' => $user);
         }
