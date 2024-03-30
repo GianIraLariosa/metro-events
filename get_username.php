@@ -5,19 +5,17 @@ include 'db_con.php';
 if(isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
-    // Perform a SELECT query to fetch all data based on user_id
-    $query = "SELECT * FROM user WHERE user_id = ?";
+    // Perform a SELECT query to fetch user name based on user_id
+    $query = "SELECT user_name FROM user WHERE user_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $user_id); // Assuming user_id is an integer
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bind_result($user_name);
+    $stmt->fetch();
 
-    if($result->num_rows > 0) {
-        // Fetch all data associated with the user_id
-        $user_data = $result->fetch_assoc();
-
-        // Return user data as JSON response
-        echo json_encode($user_data);
+    if($user_name !== null) {
+        // Return user name as JSON response
+        echo json_encode(array('user_name' => $user_name));
     } else {
         // User not found
         http_response_code(404);
