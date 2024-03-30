@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['table'])) {
     if (isset($_GET['organizer_id'])) {
         $organizer_id = $_GET['organizer_id'];
         // Retrieve data from the specified table for the specific organizer
-        $sql_data = "SELECT * FROM $table WHERE organizer = '$organizer_id' AND status = 1";
+        $sql_data = "SELECT * FROM $table WHERE organizer = '$organizer_id'";
     } elseif (isset($_GET['user_id'])){
         $user_id = $_GET['user_id'];
         $sql_data = "SELECT * FROM $table WHERE user_id = '$user_id'";

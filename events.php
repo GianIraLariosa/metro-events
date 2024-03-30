@@ -2,7 +2,7 @@
 include 'db_con.php'; // Include your database connection file
 
 // Fetch events from the database
-$sql = "SELECT * FROM event";
+$sql = "SELECT * FROM event where status = 1";
 $result = $conn->query($sql);
 
 $response = array();
