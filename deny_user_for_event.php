@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Assuming you have sanitized the input and prevented SQL injection
 
         // Update the status in the joinEvent table
-        $sql = "UPDATE joinevent SET status = 1 WHERE joinEvent_id = ?";
+        $sql = "UPDATE joinevent SET status = 2 WHERE joinEvent_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $joinEventId);
         $stmt->execute();

@@ -3,11 +3,12 @@
 include 'db_con.php';
 // Assuming database connection is established
 
-if (isset($_POST['eventid'])) {
+if (isset($_POST['eventid']) && isset($_POST['cancel_reason'])) {
     $eventId = $_POST['eventid'];
+    $reason = $_POST['cancel_reason'];
     
     // Perform cancellation operation, for example:
-    $query = "UPDATE event SET status = 0 WHERE event_id = $eventId";
+    $query = "UPDATE event SET status = 0, cancel_reason = '$reason' WHERE event_id = $eventId";
     
     if (mysqli_query($conn, $query)) {
         echo "Event cancelled successfully";
@@ -15,6 +16,6 @@ if (isset($_POST['eventid'])) {
         echo "Error cancelling event: " . mysqli_error($conn);
     }
 } else {
-    echo "Event ID not provided";
+    echo "Event ID or reason not provided";
 }
 ?>
