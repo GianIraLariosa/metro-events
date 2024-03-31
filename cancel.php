@@ -3,9 +3,9 @@
 include 'db_con.php';
 // Assuming database connection is established
 
-if (isset($_POST['eventid']) && isset($_POST['reason'])) {
+if (isset($_POST['eventid']) && isset($_POST['cancel_reason'])) {
     $eventId = $_POST['eventid'];
-    $reason = $_POST['reason'];
+    $reason = $_POST['cancel_reason'];
     
     // Perform cancellation operation, for example:
     $query = "UPDATE event SET status = 0, cancel_reason = '$reason' WHERE event_id = $eventId";
